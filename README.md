@@ -6,7 +6,7 @@ This action:
 
 - Installs the Nextmv CLI.
 - Installs `uv` with `astral-sh/setup-uv` only when needed to manage CLI versions.
-- Optionally, configures the CLI with a provided API key.
+- Configures the CLI with a provided API key. Even though the API key is optional, it is required for all _cloud_ operations.
 
 ## Usage
 
