@@ -19,3 +19,50 @@ jobs:
       - name: Verify Nextmv CLI is available
         run: |
           nextmv version
+
+  test-action-with-api-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run setup-nextmv action with API key
+        uses: ./
+        with:
+          api-key: ${{ secrets.API_KEY_PROD }}
+
+      - name: Verify Nextmv CLI is available and configured
+        run: |
+          nextmv version
+          nextmv cloud app exists -a nextroute
+
+  test-action-with-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run setup-nextmv action with specific version
+        uses: ./
+        with:
+          version: "v1.2.2"
+
+      - name: Verify Nextmv CLI is available and at specified version
+        run: |
+          nextmv version
+
+  test-action-with-uv-already-installed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Run setup-nextmv action when uv is already installed
+        uses: ./
+
+      - name: Verify Nextmv CLI is available
+        run: |
+          nextmv version
