@@ -24,6 +24,5 @@ steps:
 
 ## Inputs
 
+- `api-key`: Nextmv API key. If provided, the action automatically configures the CLI for `nextmv cloud` operations. While optional, an API key is required for all _cloud_ operations.
 - `version`: Optional Nextmv CLI version (for example, `v1.3.0`). If omitted, installs the latest.
-- `api-key`: Optional Nextmv API key. If provided, the action runs:
-  `nextmv configuration create -a <api-key>`
