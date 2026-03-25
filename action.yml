@@ -1,0 +1,53 @@
+name: Setup Nextmv CLI
+description: Install Nextmv CLI using uv, with optional version pinning and API key configuration.
+author: nextmv-io
+branding:
+  icon: terminal
+  color: green
+
+inputs:
+  version:
+    description: Optional Nextmv CLI version (for example, 0.6.4). Installs latest when omitted.
+    required: false
+    default: ""
+  api-key:
+    description: Optional Nextmv API key. When provided, runs `nextmv configuration create -a <api-key>`.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Check whether uv is already available
+      id: check-uv
+      shell: bash
+      run: |
+        if command -v uv >/dev/null 2>&1; then
+          echo "installed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "installed=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Install uv
+      if: steps.check-uv.outputs.installed != 'true'
+      uses: astral-sh/setup-uv@v7
+
+    - name: Ensure uv tool bin directory is in PATH
+      shell: bash
+      run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+    - name: Install Nextmv CLI
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.version }}" ]; then
+          uv tool install --force "nextmv==${{ inputs.version }}"
+        else
+          uv tool install --force nextmv
+        fi
+
+    - name: Configure Nextmv API key
+      if: inputs.api-key != ''
+      shell: bash
+      env:
+        NEXTMV_API_KEY: ${{ inputs.api-key }}
+      run: nextmv configuration create -a "$NEXTMV_API_KEY"
