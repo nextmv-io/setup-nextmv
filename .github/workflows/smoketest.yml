@@ -29,7 +29,7 @@ jobs:
       - name: Run setup-nextmv action with API key
         uses: ./
         with:
-          api-key: ${{ secrets.NEXTMV_API_KEY_PROD }}
+          api-key: ${{ secrets.API_KEY_PROD }}
 
       - name: Verify Nextmv CLI is available and configured
         run: |

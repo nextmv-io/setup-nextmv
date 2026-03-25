@@ -46,8 +46,8 @@ runs:
         fi
 
     - name: Configure Nextmv API key
-      if: ${{ inputs['api-key'] != '' }}
+      if: inputs.api-key != ''
       shell: bash
       env:
-        NEXTMV_API_KEY: ${{ inputs['api-key'] }}
+        NEXTMV_API_KEY: ${{ inputs.api-key }}
       run: nextmv configuration create -a "$NEXTMV_API_KEY"
