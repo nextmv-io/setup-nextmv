@@ -12,6 +12,7 @@ This action:
 
 ```yaml
 steps:
+  # ... other steps
   - name: Install Nextmv CLI
     uses: nextmv-io/setup-nextmv@v1
     with:
