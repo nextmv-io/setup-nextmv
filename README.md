@@ -13,13 +13,13 @@ This action:
 This example shows how to use the action to install the Nextmv CLI and then use it to push an app to the Nextmv Platform (the app is [`nextroute`](https://github.com/nextmv-io/community-apps/tree/develop/go-nextroute) in this case).
 
 ```yaml
-name: Push to staging
+name: Push Application to Nextmv Platform
 on:
   push:
     branches:
       - main
 jobs:
-  sandbox:
+  push-app:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
