@@ -8,18 +8,32 @@ This action:
 - Installs `uv` with `astral-sh/setup-uv` only when needed to manage CLI versions.
 - Configures the CLI with a provided API key. Even though the API key is optional, it is required for all `nextmv cloud` operations.
 
-## Usage
+## Example Usage
+
+This example shows how to use the action to install the Nextmv CLI and then use it to push an app to the Nextmv Platform (the app is [`nextroute`](https://github.com/nextmv-io/community-apps/tree/develop/go-nextroute) in this case).
 
 ```yaml
-steps:
-  - name: Install Nextmv CLI
-    uses: nextmv-io/setup-nextmv@v1
-    with:
-      api-key: ${{ secrets.NEXTMV_API_KEY }}
+name: Push Application to Nextmv Platform
+on:
+  push:
+    branches:
+      - main
+jobs:
+  push-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-  - name: Do something with CLI
-    run: |
-      nextmv cloud app push -a my-app-id --version-yes --update-instance-id staging
+      - name: Install Nextmv CLI
+        uses: nextmv-io/setup-nextmv@v1
+        with:
+          api-key: ${{ secrets.NEXTMV_API_KEY }}
+
+      - name: Push new version of nextroute and update staging instance
+        run: |
+          nextmv cloud app push -a nextroute --version-yes --update-instance-id staging
+        working-directory: ./nextroute  # Location of the app to push
 ```
 
 ## Inputs
