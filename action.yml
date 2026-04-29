@@ -16,6 +16,8 @@ inputs:
     default: ""
   endpoint:
     description: Optional Nextmv API endpoint. When provided, it uses this endpoint over the default to bootstrap itself.
+    required: false
+    default: ""
 
 runs:
   using: composite
