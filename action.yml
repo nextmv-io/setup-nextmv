@@ -14,6 +14,8 @@ inputs:
     description: Optional Nextmv API key. When provided, runs `nextmv configuration create -a <api-key>`.
     required: false
     default: ""
+  endpoint:
+    description: Optional Nextmv API endpoint. When provided, it uses this endpoint over the default to bootstrap itself.
 
 runs:
   using: composite
@@ -50,4 +52,10 @@ runs:
       shell: bash
       env:
         NEXTMV_API_KEY: ${{ inputs.api-key }}
-      run: nextmv configuration create -a "$NEXTMV_API_KEY"
+        NEXTMV_API_ENDPOINT: ${{ inputs.endpoint }}
+      run: |
+        if [ -n "$NEXTMV_API_ENDPOINT" ]; then
+          nextmv configuration create -a "$NEXTMV_API_KEY" -e "$NEXTMV_API_ENDPOINT"
+        else
+          nextmv configuration create -a "$NEXTMV_API_KEY"
+        fi
