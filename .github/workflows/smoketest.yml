@@ -36,6 +36,23 @@ jobs:
           nextmv version
           nextmv cloud app exists -a nextroute
 
+  test-action-with-custom-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run setup-nextmv action with API key and custom endpoint
+        uses: ./
+        with:
+          api-key: ${{ secrets.API_KEY_STAGING }}
+          endpoint: ${{ secrets.ENDPOINT_STAGING }}
+
+      - name: Verify Nextmv CLI is available and configured
+        run: |
+          nextmv version
+          nextmv cloud app exists -a nextroute
+
   test-action-with-version:
     runs-on: ubuntu-latest
     steps:
